@@ -17,8 +17,14 @@ export const WalletProvider = ({ children }) => {
   }, []);
 
   const connectWallet = async () => {
+    if (!window.ethereum) {
+      console.error('MetaMask is not installed');
+      return null;
+    }
+
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send('eth_requestAccounts', []); // Request account access if needed
       const signer = provider.getSigner();
       const address = await signer.getAddress();
 
