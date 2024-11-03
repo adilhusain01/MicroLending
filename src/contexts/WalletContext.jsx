@@ -43,16 +43,35 @@ export const WalletProvider = ({ children }) => {
   };
 
   const handleAccountChange = async (accounts) => {
-    if (accounts.length === 0) {
-      setAccount('');
-      setSigner(null);
-      localStorage.removeItem('walletAddress');
-    } else {
-      setAccount(accounts[0]);
-      localStorage.setItem('walletAddress', accounts[0]);
-      await connectWallet();
+    try {
+      if (accounts.length === 0) {
+        console.log('No accounts found. Clearing account and signer.');
+        setAccount('');
+        setSigner(null);
+        localStorage.removeItem('walletAddress');
+      } else {
+        console.log('Account changed:', accounts[0]);
+        setAccount(accounts[0]);
+        localStorage.setItem('walletAddress', accounts[0]);
+        await connectWallet();
+      }
+    } catch (error) {
+      console.error('Error handling account change:', error);
     }
   };
+
+  // Ensure the event listener is set up correctly
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', handleAccountChange);
+    }
+
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener('accountsChanged', handleAccountChange);
+      }
+    };
+  }, []);
 
   return (
     <WalletContext.Provider
