@@ -14,8 +14,6 @@ export const WalletProvider = ({ children }) => {
       setAccount(savedAccount);
       connectWallet();
     }
-
-    connectWallet();
   }, []);
 
   const connectWallet = async () => {
