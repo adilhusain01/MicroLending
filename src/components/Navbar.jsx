@@ -1,12 +1,5 @@
-import React from 'react';
 import { useWallet } from '../contexts/WalletContext';
-import { Wallet2, ChevronDown } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Wallet2 } from 'lucide-react';
 
 const Navbar = () => {
   const { account, connectWallet } = useWallet();
