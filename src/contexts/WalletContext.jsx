@@ -63,11 +63,13 @@ export const WalletProvider = ({ children }) => {
   // Ensure the event listener is set up correctly
   useEffect(() => {
     if (window.ethereum) {
+      console.log('Setting up accountsChanged listener');
       window.ethereum.on('accountsChanged', handleAccountChange);
     }
 
     return () => {
       if (window.ethereum) {
+        console.log('Removing accountsChanged listener');
         window.ethereum.removeListener('accountsChanged', handleAccountChange);
       }
     };
